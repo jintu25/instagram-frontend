@@ -6,9 +6,11 @@ import Posts from "./Posts";
 import Feed from "./Feed";
 import { Outlet } from "react-router-dom";
 import useGetAllPost from "@/hooks/useGetAllPost";
+import useSuggestedUsers from "@/hooks/useSuggestedUsers";
 
 const Home = () => {
   useGetAllPost()
+  useSuggestedUsers()
   return (
     <div className="flex">
       {/* Feed Section */}

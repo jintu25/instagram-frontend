@@ -8,8 +8,8 @@ function Posts() {
   return (
     <div className="px-4 md:px-16 py-4 md:py-4">
       {
-        posts.map((post) => (
-          <Post key={post._id} post={post} />
+        posts?.map((post) => (
+          <Post key={post?._id} post={post} />
         ))
       }
     </div>

@@ -1,37 +1,25 @@
 import React from 'react'
+import { useSelector } from 'react-redux';
+import SuggestedUsers from './SuggestedUsers';
 
 function RightSidebar() {
-  const suggestions = [
-    { id: 1, username: "john_doe", avatar: "https://via.placeholder.com/40", isFollowing: false },
-    { id: 2, username: "jane_smith", avatar: "https://via.placeholder.com/40", isFollowing: false },
-    { id: 3, username: "michael_89", avatar: "https://via.placeholder.com/40", isFollowing: true },
-  ];
+  const { user } = useSelector(store => store.auth)
 
   return (
     <div className="py-5">
+      <div className='flex gap-2 items-center mb-2 pb-2 border-b border-slate-200'>
+        <img
+          src={user?.profilePicture || 'https://cdn.pixabay.com/photo/2020/06/30/10/23/icon-5355896_1280.png'}
+          alt="Avatar"
+          className="w-8 h-8 rounded-full"
+        />
+        <p className="text-sm my-4">
+          <span className="font-semibold">{user?.username}</span> {user?.text}
+        </p>
+      </div>
+
       <div>
-        <h2 className="text-lg font-semibold text-[#20202033] mb-6">Suggested for you</h2>
-        <div>
-          {suggestions.map((suggestion) => (
-            <div key={suggestion.id} className="flex items-center justify-between mb-4">
-              <div className="flex items-center">
-                <img
-                  src={suggestion.avatar}
-                  alt={suggestion.username}
-                  className="w-10 h-10 rounded-full"
-                />
-                <div className="ml-4">
-                  <p className="text-sm font-semibold">{suggestion.username}</p>
-                </div>
-              </div>
-              <button
-                className={`text-sm font-medium ${suggestion.isFollowing ? "text-gray-400" : "text-blue-500"}`}
-              >
-                {suggestion.isFollowing ? "Following" : "Follow"}
-              </button>
-            </div>
-          ))}
-        </div>
+        <SuggestedUsers />
       </div>
     </div>
 

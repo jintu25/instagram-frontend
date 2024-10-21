@@ -13,6 +13,7 @@ const LeftSidebar = () => {
     const [activeMenu, setActiveMenu] = useState('/'); // Default to Home menu
     const [showCreatePost, setShowCreatePost] = useState(false);
     const user = useSelector((store) => store.auth);
+    // console.log(user.user._id)
 
     const handleMenuClick = (menu) => {
         if (menu === '/create') {
@@ -80,13 +81,14 @@ const LeftSidebar = () => {
                         <span>Notifications</span>
                     </li>
 
-                    <li
+                    <Link
+                        to="/chat"
                         onClick={() => handleMenuClick('/messages')}
                         className={`flex items-center space-x-4 mb-4 p-2 rounded-lg cursor-pointer ${activeMenu === '/messages' ? 'bg-gray-200' : ''}`}
                     >
                         <AiOutlineMessage size={24} />
                         <span>Messages</span>
-                    </li>
+                    </Link>
 
                     <div>
                         <div
@@ -108,12 +110,12 @@ const LeftSidebar = () => {
                     </div>
 
                     <Link
-                        to="/profile"
+                        to={`profile/${user?.user?._id}`}
                         onClick={() => handleMenuClick('/profile')}
                         className={`flex items-center space-x-4 mb-4 p-2 rounded-lg ${activeMenu === '/profile' ? 'bg-gray-200' : ''}`}
                     >
                         <FiUser size={24} />
-                        <span>{user?.user?.username}</span>
+                        <span>Profile</span>
                     </Link>
 
                     <MoreMenuBigScreen />
