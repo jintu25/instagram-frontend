@@ -20,6 +20,6 @@ const useSuggestedUsers = () => {
         };
         fetchSuggestedUsers();
     }, [dispatch]);
-};
+}; 
 
 export default useSuggestedUsers;

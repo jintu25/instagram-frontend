@@ -4,11 +4,16 @@ import storage from 'redux-persist/lib/storage'; // Defaults to localStorage for
 import { combineReducers } from 'redux';
 import authSlice from './authSlice';
 import postSlice from './postSlice';
-
+import socketSlice from "./socketSlice"
+import chatSlice from "./chatSlice"
+import RTNSlice from "./RTNSlice"
 // Combine your reducers
 const rootReducer = combineReducers({
     auth:authSlice ,
-    post: postSlice
+    post: postSlice,
+    socketio: socketSlice,
+    chat: chatSlice,
+    realTimeNotification: RTNSlice
     // Add other reducers here
 });
 

@@ -12,6 +12,7 @@ const CreatePost = ({ closeModal }) => {
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch()
     const { posts } = useSelector(store => store.post)
+    
     const handleImageChange = async (e) => {
         const file = e.target.files[0];
         if (file) {

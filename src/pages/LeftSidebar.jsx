@@ -8,8 +8,10 @@ import { MoreMenuBigScreen, MoreMenuSmallScreen } from "./MoreMenu";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import CreatePost from "./CreatePost";
+import { Popover, PopoverTrigger } from "@radix-ui/react-popover";
 
 const LeftSidebar = () => {
+    const { likeNotification } = useSelector(store => store.realTimeNotification)
     const [activeMenu, setActiveMenu] = useState('/'); // Default to Home menu
     const [showCreatePost, setShowCreatePost] = useState(false);
     const user = useSelector((store) => store.auth);
@@ -74,11 +76,20 @@ const LeftSidebar = () => {
                     </li>
 
                     <li
-                        onClick={() => handleMenuClick('/notifications')}
                         className={`flex items-center space-x-4 mb-4 p-2 rounded-lg cursor-pointer ${activeMenu === '/notifications' ? 'bg-gray-200' : ''}`}
                     >
                         <FaRegHeart size={24} />
                         <span>Notifications</span>
+                        {
+                            likeNotification.length > 0 && (
+                                <Popover>
+                                    <PopoverTrigger asChild>
+                                        <button className="rounded-full h-5 w-5 absolute bottom-6 left-12">{likeNotification?.length}</button>
+                                    </PopoverTrigger>
+                                    {/* <PopoverContent>Place content for the popover here.</PopoverContent> */}
+                                </Popover>
+                            )
+                        }
                     </li>
 
                     <Link

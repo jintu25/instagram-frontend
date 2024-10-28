@@ -15,7 +15,7 @@ function Profile() {
   useGetUserProfile(userId); // It’s fine to pass undefined here
 
   const { userProfile, user } = useSelector(store => store.auth);
-  const isUserProfile = userProfile._id === user._id
+  const isUserProfile = userProfile?._id === user?._id
   const [activeMenu, setActiveMenu] = useState('Posts');
   console.log(userProfile)
   const handleMenuClick = (menuItem) => {
