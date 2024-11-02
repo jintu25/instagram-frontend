@@ -35,7 +35,7 @@ function Signup() {
           email: '',
           password: '',
         })
-        navigate("/")
+        navigate("/login")
       } 
     } catch (error) {
       toast.error(error.response.data.message)
@@ -43,7 +43,6 @@ function Signup() {
       setLoading(false)
     }
   };
-
 
   return (
     <div className='flex h-screen w-screen justify-center items-center'>

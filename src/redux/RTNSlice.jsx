@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { createSlice } from "@reduxjs/toolkit";
 
 const RTNSlice = createSlice({
     name: "realTimeNotification",
@@ -7,14 +7,31 @@ const RTNSlice = createSlice({
     },
     reducers: {
         setLikeNotification: (state, action) => {
-            if (action.payload.type === "like") {
-                state.likeNotification.push(action.payload)
-            } else if (action.payload.type === "dislike") {
-                state.likeNotification = state.likeNotification.filter((item) => item.userId !== action.payload.userId)
+            const { type, userId, postId } = action.payload;
+
+            // Handle "like" notifications
+            if (type === "like") {
+                // Check if the notification already exists to prevent duplicates
+                const exists = state.likeNotification.some(
+                    (item) => item.userId === userId && item.postId === postId
+                );
+                if (!exists) {
+                    state.likeNotification.push(action.payload);
+                }
+            }
+
+            // Handle "dislike" notifications by removing the existing like
+            else if (type === "dislike") {
+                state.likeNotification = state.likeNotification.filter(
+                    (item) => item.userId !== userId || item.postId !== postId
+                );
             }
         }
     }
-})
+});
 
+// Action export
 export const { setLikeNotification } = RTNSlice.actions;
-export default RTNSlice.reducer
+
+// Reducer export
+export default RTNSlice.reducer;

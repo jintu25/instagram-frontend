@@ -1,60 +1,43 @@
-import LeftSidebar from '@/pages/LeftSidebar'
-import { setOnlineUsers } from '@/redux/chatSlice'
-import { setLikeNotification } from '@/redux/RTNSlice'
-import { setSocket } from '@/redux/socketSlice'
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { Outlet } from 'react-router-dom'
-import { io } from 'socket.io-client'
+import { useEffect } from 'react';
+import { io } from 'socket.io-client';
+import { useDispatch, useSelector } from 'react-redux';
+import { setSocket } from '@/redux/socketSlice';
+import { setOnlineUsers } from '@/redux/chatSlice';
+import { Outlet } from 'react-router-dom';
+import LeftSidebar from '@/pages/LeftSidebar';
 
-function Mainlayout() {
-
-  const { user } = useSelector(store => store.auth)
-  const { socket } = useSelector(store => store.socketio)
-  const dispatch = useDispatch()
+function MainLayout() {
+  const dispatch = useDispatch();
+  const { user } = useSelector(store => store.auth);
 
   useEffect(() => {
     if (user) {
       const socketio = io("http://localhost:3000", {
-        query: {
-          userId: user?._id
-        },
+        query: { userId: user._id },
         transports: ["websocket"]
       });
-      dispatch(setSocket(socketio))
+
+      dispatch(setSocket(socketio));
 
       socketio.on("getOnlineUser", (onlineUsers) => {
         dispatch(setOnlineUsers(onlineUsers));
       });
-      socketio.on("notification", (notification) => {
-        dispatch(setLikeNotification(notification));
-      });
 
       return () => {
-        socketio.close();
-        dispatch(setSocket(null))
+        socketio.disconnect();
+        dispatch(setSocket(null));
       };
-    } else {
-      socket.close();
-      dispatch(setSocket(null))
     }
-
   }, [user, dispatch]);
-
 
   return (
     <div className="flex">
-      {/* Left Sidebar - Always visible */}
-      <div>
-        <LeftSidebar />
-      </div>
-
-      {/* Content Area - Changes based on the route */}
+      <LeftSidebar />
       <div className="flex-1">
         <Outlet />
       </div>
     </div>
-  )
+  );
 }
 
-export default Mainlayout
+export default MainLayout;

@@ -1,12 +1,13 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Input } from './ui/input'
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setAuthUser } from '@/redux/authSlice';
 
 function Login() {
+    const { user } = useSelector(store => store.auth)
     const [input, setInput] = useState({
         username: '',
         email: '',
@@ -49,7 +50,11 @@ function Login() {
         }
     };
 
-
+    useEffect(() => {
+        if (user) {
+            navigate("/")
+        }
+    }, [])
     return (
         <div className='flex h-screen w-screen justify-center items-center'>
             <div className='w-full md:w-3/4 lg:w-2/5 m-auto justify-center text-center shadow-[rgba(0,_0,_0,_0.25)_0px_25px_50px_-12px] px-8 py-16 rounded-md'>

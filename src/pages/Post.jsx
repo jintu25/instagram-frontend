@@ -16,6 +16,7 @@ const Post = ({ post }) => {
   const [liked, setLiked] = useState(post.likes.includes(user?._id) || false);
   const [postLike, setPostLikes] = useState(post.likes.length);
   const [commentList, setCommentList] = useState(post.comments);
+  const [bookmarked, setBookmarked] = useState(post?.bookmarks?.includes(post?._id) || false); // Bookmark state
   const dispatch = useDispatch();
   console.log(commentList)
 
@@ -92,6 +93,21 @@ const Post = ({ post }) => {
     }
   };
 
+  const handleBookmarks = async () => {
+    try {
+      const res = await axios.get(`http://localhost:3000/api/v1/post/${post?._id}/bookmark`, { withCredentials: true })
+      console.log(res)
+      if (res.data.success) {
+        setBookmarked(!bookmarked);
+        toast.success(res.data.message);
+      }
+    } catch (error) {
+      toast.error("Failed to toggle bookmark");
+      console.error(error);
+    }
+
+  }
+
   return (
     <div className="bg-white border border-gray-300 rounded-lg min-w-full lg:max-w-lg mx-auto my-4 shadow-md">
       <div className="flex items-center justify-between p-4">
@@ -114,7 +130,7 @@ const Post = ({ post }) => {
               <button
                 className="w-full py-2 text-red-500 text-center font-semibold border-b"
               >
-                Unfollow
+                UnFollow
               </button>
 
               {/* Add to Favorites */}
@@ -163,8 +179,10 @@ const Post = ({ post }) => {
             <FiSend size={24} />
           </button>
         </div>
-        <button>
-          <FiBookmark size={24} />
+        <button onClick={handleBookmarks} >
+          {
+            bookmarked ? <FiBookmark size={24} className='text-blue-950' /> : <FiBookmark size={24} />
+          }
         </button>
       </div>
 

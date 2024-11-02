@@ -5,28 +5,29 @@ import ChatPage from "@/pages/ChatPage";
 import EditProfile from "@/pages/EditProfile";
 import Home from "@/pages/Home";
 import Profile from "@/pages/Profile";
+import ProtectRoute from "@/pages/ProtectRoute";
 import { createBrowserRouter } from "react-router-dom";
 
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <Mainlayout />,
+        element: <ProtectRoute><Mainlayout /> </ProtectRoute>,
         children: [
             {
                 path: "/",
-                element: <Home />
+                element: <ProtectRoute><Home /></ProtectRoute> 
             },
             {
                 path: "/profile/:id",
-                element: <Profile />
+                element: <ProtectRoute><Profile /></ProtectRoute>
             },
             {
                 path: "/account/edit",
-                element: <EditProfile />
+                element: <ProtectRoute><EditProfile /></ProtectRoute>
             },
             {
                 path: "/chat",
-                element: <ChatPage />
+                element: <ProtectRoute><ChatPage /></ProtectRoute>
             },
         ]
     },
