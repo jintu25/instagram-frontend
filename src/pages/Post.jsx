@@ -1,4 +1,5 @@
 import { setPosts } from '@/redux/postSlice';
+import { USER_API } from '@/utils/constant';
 import axios from 'axios';
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
@@ -34,7 +35,7 @@ const Post = ({ post }) => {
 
   const handleDelete = async () => {
     try {
-      const res = await axios.delete(`http://localhost:3000/api/v1/post/delete/${post._id}`, { withCredentials: true });
+      const res = await axios.delete(`${USER_API}/post/delete/${post._id}`, { withCredentials: true });
       if (res.data.success) {
         const updatedPost = posts.filter((postItem) => postItem?._id !== post?._id);
         dispatch(setPosts(updatedPost));
@@ -48,7 +49,7 @@ const Post = ({ post }) => {
   const handleLikeOrDislike = async () => {
     try {
       const action = liked ? 'dislike' : 'like';
-      const res = await axios.get(`http://localhost:3000/api/v1/post/${post._id}/${action}`, { withCredentials: true });
+      const res = await axios.get(`${USER_API}/post/${post._id}/${action}`, { withCredentials: true });
       if (res.data.success) {
         const updatedLikes = liked ? postLike - 1 : postLike + 1;
         setPostLikes(updatedLikes);
@@ -73,7 +74,7 @@ const Post = ({ post }) => {
     }
     try {
       const res = await axios.post(
-        `http://localhost:3000/api/v1/post/${post._id}/comment`,
+        `${USER_API}/post/${post._id}/comment`,
         { text: inputValue },
         { withCredentials: true }
       );
@@ -95,7 +96,7 @@ const Post = ({ post }) => {
 
   const handleBookmarks = async () => {
     try {
-      const res = await axios.get(`http://localhost:3000/api/v1/post/${post?._id}/bookmark`, { withCredentials: true })
+      const res = await axios.get(`${USER_API}/post/${post?._id}/bookmark`, { withCredentials: true })
       console.log(res)
       if (res.data.success) {
         setBookmarked(!bookmarked);

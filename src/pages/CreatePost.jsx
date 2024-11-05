@@ -5,6 +5,7 @@ import { ColorRing } from 'react-loader-spinner';
 import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import { setPosts } from '@/redux/postSlice';
+import { USER_API } from '@/utils/constant';
 
 const CreatePost = ({ closeModal }) => {
     const [image, setImage] = useState(null);
@@ -34,7 +35,7 @@ const CreatePost = ({ closeModal }) => {
 
             // Sending FormData to the backend
             const res = await axios.post(
-                'http://localhost:3000/api/v1/post/addpost',
+                `${USER_API}/post/addpost`,
                 formData,
                 {
                     headers: {

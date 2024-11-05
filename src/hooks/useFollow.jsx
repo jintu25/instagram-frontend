@@ -1,17 +1,20 @@
-// src/hooks/useFollow.js
-import { followOrUnfollowUser } from '@/redux/authSlice';
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
 
-const useFollow = (userId, initialFollowStatus) => {
+import { useSelector, useDispatch } from 'react-redux';
+import { useState } from 'react';
+import { followOrUnfollowUser } from '@/redux/authSlice';
+
+const useFollow = (userId) => {
     const dispatch = useDispatch();
-    const [isFollowing, setIsFollowing] = useState(initialFollowStatus);
     const [loading, setLoading] = useState(false);
+
+    // Get the current follow status from Redux
+    const isFollowing = useSelector((state) =>
+        state.auth.userProfile?.followers.includes(state.auth.user?._id)
+    );
 
     const toggleFollow = async () => {
         setLoading(true);
         await dispatch(followOrUnfollowUser(userId));
-        setIsFollowing((prev) => !prev);
         setLoading(false);
     };
 

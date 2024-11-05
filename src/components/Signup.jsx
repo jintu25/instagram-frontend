@@ -3,6 +3,8 @@ import { Input } from './ui/input'
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { Link, useNavigate } from 'react-router-dom';
+import { ColorRing } from 'react-loader-spinner';
+import { USER_API } from '@/utils/constant';
 
 function Signup() {
   const [input, setInput] = useState({
@@ -20,7 +22,7 @@ function Signup() {
     e.preventDefault();
     try {
       setLoading(true)
-      const res = await axios.post("http://localhost:3000/api/v1/user/register", input, {
+      const res = await axios.post(`${USER_API}/user/register`, input, {
         headers: {
           "Content-Type": "application/json"
         },
@@ -85,7 +87,24 @@ function Signup() {
               placeholder="Password"
             />
           </div>
-          <button type='submit' className="btn btn-success w-full my-3 text-white text-lg"> {loading ? 'Sign Uppp...' : 'Sign Up'}</button>
+          <button type='submit' className="btn btn-success w-full my-3 text-white text-lg flex items-center justify-center">
+            {loading ? (
+              <>
+                <ColorRing
+                  visible={true}
+                  height="24" // Set a smaller height for the spinner
+                  width="24"  // Set a smaller width for the spinner
+                  ariaLabel="color-ring-loading"
+                  wrapperStyle={{ marginRight: '10px' }} // Add some spacing between spinner and text
+                  wrapperClass="color-ring-wrapper"
+                  colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
+                />
+                Signing Up...
+              </>
+            ) : (
+              'Sign Up'
+            )}
+          </button>
           <p className='text-lg '>Already have an account <Link to="/login" className='text-sky-600 font-semibold underline'>Please Login</Link></p>
         </form>
       </div>

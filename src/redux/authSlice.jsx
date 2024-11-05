@@ -1,4 +1,5 @@
 // src/redux/slices/userSlice.js
+import { USER_API } from '@/utils/constant';
 import { createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
@@ -57,7 +58,7 @@ export const {
 export const followOrUnfollowUser = (userId) => async (dispatch) => {
     try {
         const response = await axios.post(
-            `http://localhost:3000/api/v1/user/followorunfollow/${userId}`, // Assuming a proxy setup in package.json
+            `${USER_API}/user/followorunfollow/${userId}`, // Assuming a proxy setup in package.json
             {},
             { withCredentials: true }
         );

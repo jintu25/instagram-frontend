@@ -1,4 +1,5 @@
 import { setAuthUser } from '@/redux/authSlice';
+import { USER_API } from '@/utils/constant';
 import axios from 'axios';
 import { useState, useRef } from 'react';
 import toast from 'react-hot-toast';
@@ -42,7 +43,7 @@ const EditProfile = () => {
         try {
             setLoading(true);
             const res = await axios.post(
-                'http://localhost:3000/api/v1/user/profile/edit',
+                `${USER_API}/user/profile/edit`,
                 formData,
                 {
                     headers: {

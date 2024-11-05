@@ -14,23 +14,24 @@ function Profile() {
   const dispatch = useDispatch();
 
   // Fetch user profile data
-  useGetUserProfile(userId);
-  const { userProfile, user } = useSelector((store) => store.auth);
-  const initialFollowStatus = userProfile && userProfile.followers.includes(user._id);
+  const { userProfile, loading: loadingProfile } = useGetUserProfile(userId);
+  const user = useSelector((state) => state.auth.user);
+  const initialFollowStatus = userProfile?.followers.includes(user._id) || false;
 
-  const { isFollowing, toggleFollow, loading } = useFollow(userId, initialFollowStatus);
-
+  const { isFollowing, toggleFollow, loading: loadingFollow } = useFollow(userId, initialFollowStatus);
   const isUserProfile = userProfile?._id === user?._id;
   const [activeMenu, setActiveMenu] = useState('Posts');
 
-  useEffect(() => {
-    if (isFollowing !== initialFollowStatus) {
-      // Re-fetch user profile data to reflect updated follow status
-      // dispatch(fetchUserProfile(userId));
-    }
-  }, [isFollowing, initialFollowStatus, dispatch, userId]);
-
   const handleMenuClick = (menu) => setActiveMenu(menu);
+
+  if (loadingProfile) {
+    return <p>Loading profile...</p>;
+  }
+
+  if (!userProfile) {
+    return <p>User not found.</p>;
+  }
+
 
 
   return (
@@ -65,12 +66,13 @@ function Profile() {
                         </button>
                       </>
                     ) : (
-                      <button
-                        className="text-slate-50 bg-sky-400 px-2 py-1 rounded-lg font-semibold"
-                        onClick={toggleFollow} disabled={loading}
-                      >
-                        {isFollowing ? 'Unfollow' : 'Follow'}
-                      </button>
+                        <button
+                          className="text-slate-50 bg-sky-400 px-2 py-1 rounded-lg font-semibold"
+                          onClick={toggleFollow}
+                          disabled={loadingFollow} // Change loading to loadingFollow here
+                        >
+                          {isFollowing ? 'Unfollow' : 'Follow'}
+                        </button>
                     )}
                   </div>
                 </div>

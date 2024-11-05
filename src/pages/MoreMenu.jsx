@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setAuthUser } from '@/redux/authSlice';
 import { setPosts, setSelectedPost } from '@/redux/postSlice';
+import { USER_API } from '@/utils/constant';
 
 // More Menu for Big Screens
 export const MoreMenuBigScreen = () => {
@@ -19,7 +20,7 @@ export const MoreMenuBigScreen = () => {
     // Move handleLogout inside the component
     const handleLogout = async () => {
         try {
-            const res = await axios.get("http://localhost:3000/api/v1/user/logout", {
+            const res = await axios.get(`${USER_API}/user/logout`, {
                 withCredentials: true
             });
             if (res.data.success) {
@@ -92,7 +93,7 @@ export const MoreMenuSmallScreen = ({ darkMode, toggleDarkMode }) => {
     // Move handleLogout inside the component
     const handleLogout = async () => {
         try {
-            const res = await axios.get("http://localhost:3000/api/v1/user/logout", {
+            const res = await axios.get(`${USER_API}/user/logout`, {
                 withCredentials: true
             });
             if (res.data.success) {

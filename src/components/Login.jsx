@@ -5,6 +5,8 @@ import toast from 'react-hot-toast';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setAuthUser } from '@/redux/authSlice';
+import { USER_API } from '@/utils/constant';
+import { Watch } from 'react-loader-spinner';
 
 function Login() {
     const { user } = useSelector(store => store.auth)
@@ -24,7 +26,7 @@ function Login() {
         e.preventDefault();
         try {
             setLoading(true)
-            const res = await axios.post("http://localhost:3000/api/v1/user/login", input, {
+            const res = await axios.post(`${USER_API}/user/login`, input, {
                 headers: {
                     "Content-Type": "application/json"
                 },
@@ -49,15 +51,25 @@ function Login() {
             setLoading(false)
         }
     };
-
-    useEffect(() => {
-        if (user) {
-            navigate("/")
-        }
-    }, [])
     return (
+
         <div className='flex h-screen w-screen justify-center items-center'>
+            {loading ? (
+                <div className='flex justify-center bg-white'>
+                    <Watch
+                        visible={true}
+                        height="80"
+                        width="80"
+                        radius="48"
+                        color="#4fa94d"
+                        ariaLabel="watch-loading"
+                        wrapperStyle={{}}
+                        wrapperClass=""
+                    />
+                </div> // Show loading spinner or message
+            ) : (
             <div className='w-full md:w-3/4 lg:w-2/5 m-auto justify-center text-center shadow-[rgba(0,_0,_0,_0.25)_0px_25px_50px_-12px] px-8 py-16 rounded-md'>
+
                 <form onSubmit={handleSubmit} className=''>
                     <div>
                         <h2 className='text-3xl font-system-ui'>Instagram</h2>
@@ -93,8 +105,9 @@ function Login() {
                         {loading ? 'Logging In...' : 'Log In'}
                     </button>
                     <p className=''>Don't have an account please<Link className='text-sky-600 font-semibold' to="/signup"> SignUp</Link></p>
-                </form>
+                        </form>
             </div>
+            )}
         </div>
     )
 }

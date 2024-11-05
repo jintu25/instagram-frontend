@@ -7,6 +7,7 @@ import Message from './Message';
 import axios from 'axios';
 import { setMessages } from '@/redux/chatSlice';
 import useChatRTM from '@/hooks/useChatRTM';
+import { USER_API } from '@/utils/constant';
 
 const ChatPage = () => {
     useChatRTM()
@@ -27,7 +28,7 @@ const ChatPage = () => {
 
         try {
             const res = await axios.post(
-                `http://localhost:3000/api/v1/message/send/${selectedUser?._id}`,
+                `${USER_API}/message/send/${selectedUser?._id}`,
                 { message: textMessage },  // Changed to 'message' to match backend
                 {
                     headers: {

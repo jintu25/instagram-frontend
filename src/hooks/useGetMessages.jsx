@@ -1,4 +1,5 @@
 import { setMessages } from "@/redux/chatSlice";
+import { USER_API } from "@/utils/constant";
 import axios from "axios";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,7 +13,7 @@ const useGetMessages
         useEffect(() => {
             const fetchMessages = async () => {
                 try {
-                    const res = await axios.get(`http://localhost:3000/api/v1/message/all/${selectedUser?._id}`, { withCredentials: true });
+                    const res = await axios.get(`${USER_API}/message/all/${selectedUser?._id}`, { withCredentials: true });
                     // Make sure the route matches your backend
                     console.log(res.data)
                     if (res.data.success) {
